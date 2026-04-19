@@ -18,6 +18,7 @@ export default function App() {
       <TopBar />
 
       <Box
+        className="print-area"
         sx={{
           flex: 1,
           overflow: "hidden",
