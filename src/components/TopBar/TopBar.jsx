@@ -9,20 +9,15 @@ import {
 } from "@mui/material";
 import WbSunnyRoundedIcon from "@mui/icons-material/WbSunnyRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
-import { useState } from "react";
 import { branchInfo } from "../../data/mockData";
 
-export default function TopBar() {
-  const [tab, setTab] = useState(0);
-  const [branch, setBranch] = useState(branchInfo.name);
-
+export default function TopBar({ activeTab, onTabChange }) {
   return (
     <Box
       sx={{
         backgroundColor: "background.paper",
         borderBottom: "1px solid #E0E0E0",
         px: 3,
-        py: 0,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -31,19 +26,17 @@ export default function TopBar() {
         gap: 2,
       }}
     >
-      {/* LEFT - branch selector + date */}
+      {/* LEFT - branch selector + date + last updated */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         <Select
-          value={branch}
-          onChange={(e) => setBranch(e.target.value)}
+          value={branchInfo.name}
           size="small"
           sx={{
             fontWeight: 600,
             fontSize: "0.9rem",
             minWidth: 160,
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#E0E0E0",
-            },
+            "& .MuiOutlinedInput-notchedOutline": { borderColor: "#E0E0E0" },
+            "& .MuiSelect-select": { py: 1.2 },
           }}
         >
           <MenuItem value="Demo Filiale">Demo Filiale</MenuItem>
@@ -71,7 +64,7 @@ export default function TopBar() {
             backgroundColor: "#F5F5F5",
             borderRadius: 2,
             px: 1.5,
-            py: 0.5,
+            py: 0.8,
           }}
         >
           <AccessTimeRoundedIcon
@@ -88,8 +81,8 @@ export default function TopBar() {
 
       {/* CENTER - Produktion / Auftauen tabs */}
       <Tabs
-        value={tab}
-        onChange={(_, newVal) => setTab(newVal)}
+        value={activeTab}
+        onChange={(_, newVal) => onTabChange(newVal)}
         sx={{
           "& .MuiTab-root": {
             fontWeight: 600,
@@ -97,6 +90,8 @@ export default function TopBar() {
             textTransform: "none",
             minHeight: 64,
             px: 3,
+            // visible press state for tablet
+            "&:active": { backgroundColor: "#F5F5F5" },
           },
           "& .MuiTabs-indicator": {
             backgroundColor: "primary.main",
@@ -109,19 +104,18 @@ export default function TopBar() {
       </Tabs>
 
       {/* RIGHT - weather */}
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <Chip
-          icon={<WbSunnyRoundedIcon sx={{ color: "#F5A623 !important" }} />}
-          label={`${branchInfo.weather.temp}°C`}
-          size="small"
-          sx={{
-            backgroundColor: "#FFF8E1",
-            fontWeight: 600,
-            color: "#E65100",
-            border: "1px solid #FFE082",
-          }}
-        />
-      </Box>
+      <Chip
+        icon={<WbSunnyRoundedIcon sx={{ color: "#F5A623 !important" }} />}
+        label={`${branchInfo.weather.temp}°C`}
+        size="small"
+        sx={{
+          backgroundColor: "#FFF8E1",
+          fontWeight: 600,
+          color: "#E65100",
+          border: "1px solid #FFE082",
+          px: 0.5,
+        }}
+      />
     </Box>
   );
 }
