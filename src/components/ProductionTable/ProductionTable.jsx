@@ -20,9 +20,15 @@ export default function ProductionTable() {
     setCollapsed((prev) => ({ ...prev, [catId]: !prev[catId] }));
   };
 
-  const allCollapsed =
-    Object.values(collapsed).length > 0 &&
-    categories.every((cat) => collapsed[cat.id]);
+  const expandAll = () => {
+    const allExpanded = {};
+    categories.forEach((cat) => {
+      allExpanded[cat.id] = false;
+    });
+    setCollapsed(allExpanded);
+  };
+
+  const allCollapsed = categories.every((cat) => !!collapsed[cat.id]);
 
   // detect horizontal scroll position to show/hide right shadow
   useEffect(() => {
@@ -254,16 +260,20 @@ export default function ProductionTable() {
         >
           {allCollapsed ? (
             <Box
+              onClick={expandAll}
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 py: 8,
                 color: "text.secondary",
+                cursor: "pointer",
+                userSelect: "none",
+                "&:active": { opacity: 0.7 },
               }}
             >
               <Typography variant="body2">
-                Alle Kategorien eingeklappt - tippen zum Öffnen
+                Alle Kategorien eingeklappt — tippen zum Öffnen
               </Typography>
             </Box>
           ) : (
