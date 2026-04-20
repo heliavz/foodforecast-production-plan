@@ -88,7 +88,7 @@ This project rebuilds their **Production Plan** interface, the tablet-mounted sc
 
 **Problem:** Collapsing all categories leaves the table body as blank white space with no feedback and no recovery path.
 
-**Solution:** When all categories are collapsed, a centered message appears "Alle Kategorien eingeklappt — tippen zum Öffnen" — and tapping it expands all categories immediately.
+**Solution:** When all categories are collapsed, a centered message appears "Alle Kategorien eingeklappt — tippen zum Öffnen" and tapping it expands all categories immediately.
 
 ![Empty State](./screenshots/empty-state.png)
 
@@ -109,7 +109,7 @@ These improvements were identified during the research phase and documented as f
 - **Live forecast refresh:** the Aktualisieren button in the bottom bar is currently a no-op. In production it would trigger a re-fetch of forecast data and update the `lastUpdated` timestamp, with a brief loading state on the affected cells.
 - **Kritisch panel:** tapping the Kritisch button in the bottom bar should surface a focused view of only the critical and warning rows across all categories, so a shift manager can review all urgent items without scrolling the full table.
 - **Density mode:** locations with 8 products and locations with 80 products have very different needs. A compact/comfortable row density toggle in the top bar would make the interface work well across both.
-- **Override reason logging:** the FAQ mentions staff can store reasons when manually adjusting quantities. An override reason modal, triggered when editing a cell — would make the audit trail meaningful rather than just flagging that an override occurred.
+- **Override reason logging:** the FAQ mentions staff can store reasons when manually adjusting quantities. An override reason modal, triggered when editing a cell, would make the audit trail meaningful rather than just flagging that an override occurred.
 
 ---
 
@@ -153,11 +153,14 @@ src/
 ## Running locally
 
 ```bash
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
 ```
 
-Open `http://localhost:5173`
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 The demo uses hardcoded mock data matching the product catalog visible in Foodforecast's public screenshots. The active time slot is set to the second slot (10:00–13:00) and slot progress is set to 40% to illustrate all UI states simultaneously across the table.
 
