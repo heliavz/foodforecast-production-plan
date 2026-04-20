@@ -7,17 +7,18 @@ export default function ProductRow({
   productColWidth,
   totalColWidth,
   slotColWidth,
+  isEven,
 }) {
+  const rowBg = isEven ? "#FFFFFF" : "#FAFAFA";
+
   return (
     <Box
       sx={{
         display: "flex",
         alignItems: "stretch",
         borderBottom: "1px solid #F0F0F0",
-        minHeight: 52,
-        "&:hover": {
-          backgroundColor: "#FAFAFA",
-        },
+        minHeight: 56,
+        backgroundColor: rowBg,
       }}
     >
       {/* Fixed product name column */}
@@ -29,13 +30,12 @@ export default function ProductRow({
           py: 1.5,
           position: "sticky",
           left: 0,
-          backgroundColor: "inherit",
           zIndex: 2,
           borderRight: "1px solid #E0E0E0",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          backgroundColor: "#fff",
+          backgroundColor: rowBg,
         }}
       >
         <Typography
@@ -61,12 +61,13 @@ export default function ProductRow({
           py: 1.5,
           position: "sticky",
           left: productColWidth,
-          backgroundColor: "#fff",
           zIndex: 2,
           borderRight: "2px solid #E0E0E0",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          backgroundColor: rowBg,
         }}
       >
         <Typography
@@ -74,6 +75,12 @@ export default function ProductRow({
           sx={{ fontWeight: 700, color: "text.primary" }}
         >
           {product.total}
+        </Typography>
+        <Typography
+          variant="caption"
+          sx={{ color: "text.muted", fontSize: "0.65rem" }}
+        >
+          Stk.
         </Typography>
       </Box>
 
@@ -86,6 +93,7 @@ export default function ProductRow({
             slotData={slotData}
             slot={slot}
             slotColWidth={slotColWidth}
+            rowBg={rowBg}
           />
         );
       })}
