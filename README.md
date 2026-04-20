@@ -2,7 +2,7 @@
 
 An independent improvement concept for [Foodforecast](https://foodforecast.com), a AI FoodTech startup that provides demand forecasting for bakeries, supermarkets, and food-service operators.
 
-This project rebuilds their **Production Plan** interface — the tablet-mounted screen used by kitchen staff throughout the day, with a focus on real operational UX problems identified through careful study of their publicly available product screenshots and documentation.
+This project rebuilds their **Production Plan** interface, the tablet-mounted screen used by kitchen staff throughout the day, with a focus on real operational UX problems identified through careful study of their publicly available product screenshots and documentation.
 
 > **Disclaimer:** This is an independent redesign concept built for portfolio purposes, based on publicly available screenshots from foodforecast.com. It is not affiliated with or endorsed by Foodforecast Technologies GmbH.
 
@@ -160,23 +160,25 @@ No state management library. No router. No additional dependencies beyond MUI an
 
 ## Project structure
 
+```
 src/
 ├── components/
-│ ├── TopBar/
-│ │ └── TopBar.jsx # Branch selector, date, timestamp, tabs, weather
-│ ├── ProductionTable/
-│ │ ├── ProductionTable.jsx # Table container, scroll logic, empty state
-│ │ ├── CategoryRow.jsx # Collapsible category header, full-width tap target
-│ │ ├── ProductRow.jsx # Individual product row with sticky columns, zebra stripe
-│ │ └── TimeSlotCell.jsx # Teal bar, urgency color, override icon, completed state
-│ └── BottomBar/
-│ └── BottomBar.jsx # Labeled action buttons, confirm, AI status
+│   ├── TopBar/
+│   │   └── TopBar.jsx          # Branch selector, date, timestamp, tabs, weather
+│   ├── ProductionTable/
+│   │   ├── ProductionTable.jsx # Table container, scroll logic, empty state
+│   │   ├── CategoryRow.jsx     # Collapsible category header, full-width tap target
+│   │   ├── ProductRow.jsx      # Individual product row with sticky columns, zebra stripe
+│   │   └── TimeSlotCell.jsx    # Teal bar, urgency color, override icon, completed state
+│   └── BottomBar/
+│       └── BottomBar.jsx       # Labeled action buttons, confirm, AI status
 ├── data/
-│ └── mockData.js # Time slots, categories, products, branch info
+│   └── mockData.js             # Time slots, categories, products, branch info
 ├── theme/
-│ └── theme.js # MUI theme matching Foodforecast color system
-├── App.jsx # Layout shell, tab state, Auftauen placeholder
+│   └── theme.js                # MUI theme matching Foodforecast color system
+├── App.jsx                     # Layout shell, tab state, Auftauen placeholder
 └── main.jsx
+```
 
 ---
 
@@ -199,10 +201,10 @@ Each improvement maps directly to either an observed problem in the original scr
 
 Key principles applied throughout:
 
-- **Glanceability over discoverability**: kitchen staff return to this screen dozens of times per shift. Efficiency of repeated use matters more than onboarding clarity.
-- **Two signals for every critical state**: color alone is insufficient in bright kitchen environments. Every important state uses color plus a second signal (icon, badge, or text).
+- **Glanceability over discoverability:** kitchen staff return to this screen dozens of times per shift. Efficiency of repeated use matters more than onboarding clarity.
+- **Two signals for every critical state:** color alone is insufficient in bright kitchen environments. Every important state uses color plus a second signal (icon, badge, or text).
 - **Tablet-first, not desktop-adapted**: no tooltips, no hover dependencies, minimum 44px touch targets, labeled persistent actions.
-- **Respect the existing design language**: the teal color system, card-based bars, and category grouping are preserved. This is an improvement concept, not a rebrand.
+- **Respect the existing design language:** the teal color system, card-based bars, and category grouping are preserved. This is an improvement concept, not a rebrand.
 
 ---
 
