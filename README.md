@@ -8,21 +8,11 @@ This project rebuilds their **Production Plan** interface, the tablet-mounted sc
 
 ---
 
-## Why Foodforecast
-
-Foodforecast's core product solves a genuinely hard problem: ultra-fresh food has a shelf life of hours, not days. Getting production quantities wrong in either direction costs real money, overproduction means food thrown away at closing, underproduction means lost sales from empty shelves.
-
-Their Production Plan is the interface kitchen staff use to answer one question throughout their shift: **what do I make next, and how many?** It updates multiple times per day as the AI refines its intraday forecasts. The users are bakers and kitchen workers, busy, hands occupied, reading the screen in a loud environment at a glance.
-
-The original interface, while functional, has several UX gaps that become meaningful in this context. This project identifies those gaps and rebuilds the screen with specific, justified improvements.
+## What was improved and why
 
 ![Production Plan Overview](./screenshots/production-plan-overview.png)
 
----
-
-## What was improved and why
-
-### 1. No active time slot indicator
+### 1. Active time slot indicator
 
 **Problem:** The original screen treats all time slots visually equally. A baker cannot instantly see which slot is current without reading every column header.
 
@@ -32,7 +22,7 @@ The original interface, while functional, has several UX gaps that become meanin
 
 ---
 
-### 2. No progress indicator within the active slot
+### 2. Progress indicator within the active slot
 
 **Problem:** Even knowing which slot is active, staff have no sense of how much time remains in it. Is it just starting or nearly over? This matters for pacing production.
 
@@ -40,17 +30,17 @@ The original interface, while functional, has several UX gaps that become meanin
 
 ---
 
-### 3. No urgency signaling
+### 3. Urgency signaling
 
 **Problem:** All production bars look identical regardless of whether a product is on track or critically behind. A baker cannot prioritise at a glance.
 
 **Solution:** Three urgency states with distinct colors: teal (normal, on track), amber (warning, running behind), coral (critical, significantly behind). Urgency state is visible directly on the bar without any interaction. Critical and warning bars also carry a small visible badge `!` or `!!` as a second signal independent of color, important for accessibility and bright-light conditions.
 
-![Urgency States](./screenshots/row-hierarchy.png)
+![Urgency States](./screenshots/urgency-states.png)
 
 ---
 
-### 4. No distinction between AI suggestions and manual overrides
+### 4. Distinction between AI suggestions and manual overrides
 
 **Problem:** The Foodforecast FAQ confirms bakers can override AI-suggested quantities. The original UI gives no indication of which quantities are AI-generated versus manually adjusted, making it impossible to audit decisions or understand why a number differs from expectation.
 
@@ -60,7 +50,7 @@ The original interface, while functional, has several UX gaps that become meanin
 
 ---
 
-### 5. Horizontal scroll with no affordance
+### 5. Horizontal scroll with affordance
 
 **Problem:** When more time slots exist than fit on screen, the original UI gives no visual signal that content continues to the right. On a tablet this is a significant discoverability problem.
 
@@ -68,25 +58,25 @@ The original interface, while functional, has several UX gaps that become meanin
 
 ---
 
-### 6. Article numbers as primary identifiers
+### 6. Product names as primary identifiers
 
 **Problem:** The original UI presents article numbers prominently alongside product names, styled similarly. Kitchen workers think in product names, not codes. The numbers add visual noise in a time-pressured environment.
 
 **Solution:** Product name is the dominant typographic element. Article number is rendered in muted caption style below the name, present for reference but visually subordinate.
 
-![Row Hierarchy and Article Numbers](./screenshots/row-hierarchy.png)
-
 ---
 
-### 7. No visual hierarchy between rows
+### 7. Visual hierarchy between rows
 
 **Problem:** All product rows within a category look identical, making it hard to track position when scanning quickly down a long list.
 
 **Solution:** Alternating row background colors (zebra striping) provide a persistent visual rhythm that helps the eye track across wide rows without losing its place.
 
+![Row Hierarchy and Article Numbers](./screenshots/row-hierarchy.png)
+
 ---
 
-### 8. Gesamt column missing unit label
+### 8. Gesamt column unit label
 
 **Problem:** The total column shows a raw number. The slot cells show "Stk." but the total column does not, creating a minor but noticeable inconsistency that a careful user will notice.
 
@@ -94,7 +84,7 @@ The original interface, while functional, has several UX gaps that become meanin
 
 ---
 
-### 9. No empty state for collapsed categories
+### 9. Empty state for collapsed categories
 
 **Problem:** Collapsing all categories leaves the table body as blank white space with no feedback and no recovery path.
 
@@ -104,42 +94,20 @@ The original interface, while functional, has several UX gaps that become meanin
 
 ---
 
-### 10. Auftauen tab leads nowhere
-
-**Problem:** The Auftauen (defrost) tab is present in the original UI but produces no meaningful change when selected. This looks broken.
-
-**Solution:** The tab renders a clear placeholder explaining that defrost planning is a separate module with its own time logic, deliberately out of scope for this concept.
-
----
-
-### 11. Tooltip-dependent interactions on a tablet device
-
-**Problem:** The original interface relies on hover states and tooltips as primary feedback mechanisms. Tablets have no hover. Tooltips require a long press and obscure content. The interface felt designed for desktop use despite being deployed on tablet hardware in kitchens.
-
-**Solution:** All tooltips removed from the primary workflow. Bottom bar icon buttons are replaced with labeled action buttons showing both icon and text label persistently. Touch targets are minimum 44px throughout. Active/press states replace hover states. Category headers are full-width tap targets.
-
-![Bottom Bar Labeled Actions](./screenshots/bottom-bar.png)
-
----
-
 ## What was deliberately left out of scope
 
 - **Auftauen module:** defrost planning uses fundamentally different time logic, you defrost in advance of when you sell. It warrants its own dedicated design treatment.
-- **Order Optimization view:** the procurement screen is a separate product module with a different user persona (store manager vs. kitchen staff) and different UX problems. Rebuilding both at the same depth would dilute the quality of each.
-- **Authentication and routing:** not relevant to demonstrating the UX improvements.
 - **Product thumbnails:** thumbnails appear in an older version of the Foodforecast UI. Implementing them requires ERP-connected image assets, a data integration decision, not a UX decision. The improvement here is in text hierarchy instead.
 - **Real-time data:** the `lastUpdated` timestamp and slot progress bar are hardcoded in the demo. The data structure and component architecture are designed to accept live values from an API with no structural changes required.
 
 ---
 
-## What's next — identified but not built
+## What's next - identified but not built
 
 These improvements were identified during the research phase and documented as future work:
 
-- **Slot progress auto-calculation:** derive the progress bar value from `new Date()` against slot start and end times rather than a hardcoded constant. The component already accepts the value as a prop — this is a one-line change in production.
 - **Live forecast refresh:** the Aktualisieren button in the bottom bar is currently a no-op. In production it would trigger a re-fetch of forecast data and update the `lastUpdated` timestamp, with a brief loading state on the affected cells.
 - **Kritisch panel:** tapping the Kritisch button in the bottom bar should surface a focused view of only the critical and warning rows across all categories, so a shift manager can review all urgent items without scrolling the full table.
-- **Print layout (Backzettel):** the Drucken button triggers `window.print()`. A dedicated print stylesheet could produce a clean single-column baking slip formatted for A4 or thermal printers, matching the physical workflow documented in the Foodforecast FAQ.
 - **Density mode:** locations with 8 products and locations with 80 products have very different needs. A compact/comfortable row density toggle in the top bar would make the interface work well across both.
 - **Override reason logging:** the FAQ mentions staff can store reasons when manually adjusting quantities. An override reason modal, triggered when editing a cell — would make the audit trail meaningful rather than just flagging that an override occurred.
 
@@ -210,6 +178,6 @@ Key principles applied throughout:
 
 ## Context
 
-The goal was to go beyond a standard portfolio piece by working directly with a real product, identifying genuine UX problems, and proposing solutions grounded in how the platform is actually used. The research included reading Foodforecast's full public FAQ, studying all available product screenshots, and understanding the physical deployment context — a tablet mounted in a working kitchen, used by staff who are busy, moving, and often have their hands full.
+The goal was to go beyond a standard portfolio piece by working directly with a real product, identifying genuine UX problems, and proposing solutions grounded in how the platform is actually used. The research included reading Foodforecast's full public FAQ, studying all available product screenshots, and understanding the physical deployment context, a tablet mounted in a working kitchen, used by staff who are busy, moving, and often have their hands full.
 
-All improvements prioritise the needs of the primary user — a baker or kitchen worker making time-sensitive production decisions — over aesthetic changes.
+All improvements prioritise the needs of the primary user, a baker or kitchen worker making time-sensitive production decisions, over aesthetic changes.
